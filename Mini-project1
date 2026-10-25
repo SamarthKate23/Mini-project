@@ -1,0 +1,75 @@
+
+class CanteenOrderSystem:
+    def __init__(self):
+        self.stack1 = []
+        self.stack2 = []
+        self.order_id = 1
+
+    # Place a new food order
+    def place_order(self):
+        student = input("Enter student name: ")
+        food = input("Enter food item: ")
+
+        order = (self.order_id, student, food)
+        self.stack1.append(order)
+
+        print("Order placed successfully!")
+        print("Your Order ID:", self.order_id)
+
+        self.order_id += 1
+
+    # Process the oldest order
+    def process_order(self):
+        if not self.stack2:
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+
+        if not self.stack2:
+            print("No pending orders!")
+        else:
+            order = self.stack2.pop()
+            print("\nOrder processed successfully!")
+            print("Order ID:", order[0])
+            print("Student Name:", order[1])
+            print("Food Item:", order[2])
+
+    # Display all pending orders
+    def display_orders(self):
+        orders = self.stack2[::-1] + self.stack1
+
+        if not orders:
+            print("No pending orders!")
+        else:
+            print("\n--- Pending Canteen Orders ---")
+            for order in orders:
+                print("Order ID:", order[0],
+                      "| Student:", order[1],
+                      "| Food:", order[2])
+
+    # Main menu
+    def menu(self):
+        while True:
+            print("\n===== COLLEGE CANTEEN ORDER SYSTEM =====")
+            print("1. Place Food Order")
+            print("2. Process Order")
+            print("3. Display Pending Orders")
+            print("4. Exit")
+
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                self.place_order()
+            elif choice == "2":
+                self.process_order()
+            elif choice == "3":
+                self.display_orders()
+            elif choice == "4":
+                print("Thank you for using the Canteen Order System!")
+                break
+            else:
+                print("Invalid choice! Please try again.")
+
+
+# Main program
+canteen = CanteenOrderSystem()
+canteen.menu()
